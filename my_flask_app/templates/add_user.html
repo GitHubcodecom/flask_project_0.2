@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить пользователя</title>
+</head>
+<body>
+    <h1>Добавить пользователя</h1>
+    <a href="{{ url_for('home') }}">На главную</a>
+    <!-- Выводим сообщения из flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <!-- Форма для добавления нового пользователя -->
+    <form method="POST" action="{{ url_for('add_user_route') }}">
+        <label for="name">Имя пользователя:</label>
+        <input type="text" name="name" required><br>
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" required><br>
+        <label for="level">Уровень доступа (0 - администратор):</label>
+        <input type="number" name="level" min="0" max="10" value="10"><br>
+        <button type="submit">Добавить</button>
+    </form>
+</body>
+</html>

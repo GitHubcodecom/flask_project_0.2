@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h1>Добро пожаловать, {{ session.username }}!</h1>
+    <!-- Проверяем уровень пользователя и отображаем ссылки -->
+    {% if user_level <= 1 %}
+    <a href="{{ url_for('add_user_route') }}">Добавить пользователя</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">Выйти</a>
+    <!-- Выводим сообщения из flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <h2>Список пользователей</h2>
+    <ul>
+        {% for user in users %}
+            <li>
+                {{ user.name }} (Уровень: {{ user.level }})
+                <!-- Администраторы могут удалять пользователей -->
+                {% if user_level <= 1 and user.name != session.username %}
+                <form action="{{ url_for('delete_user_route', user_id=user.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Удалить</button>
+                </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить клиента</title>
+</head>
+<body>
+    <h1>Добавить клиента</h1>
+    <a href="{{ url_for('home') }}">На главную</a>
+    <!-- Выводим сообщения из flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <!-- Форма для добавления нового пользователя -->
+    <form method="POST" action="{{ url_for('add_client_route') }}">
+        <label for="name">Имя клиента:</label>
+        <input type="text" name="name" required><br>
+        <label for="info">Информация о клиенте:</label>
+        <input type="text" info="info" required><br>
+        <button type="submit">Добавить</button>
+    </form>
+</body>
+</html>
